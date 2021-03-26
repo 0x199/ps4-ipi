@@ -4,6 +4,8 @@ PS4 IPI, short for Internal PKG Installer, is a PlayStation 4 utility homebrew a
 
 It probably already exists in some way for PS4, but I mainly found this useful for myself so I decided to implement it.
 
+Thanks to sleirsgoevy's firmware escape the homebrew is firmware-agnostic and works on both HEN and Mira.
+
 ## Usage
 
 1. Install the PKG onto your PS4;
