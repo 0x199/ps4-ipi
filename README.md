@@ -12,6 +12,10 @@ Thanks to sleirsgoevy's firmware escape the homebrew is firmware-agnostic and wo
 2. Enable FTP and upload the PKG you want to install to `/data`;
 3. Run the app.
 
+## IPI vs Debug Settings
+
+IPI does have a disadvantage compared to Debug Settings. Because we're uploading our PKG files now to the HDD instead of having it stored on a USB, the HDD requires 2x the space. This is fine for small PKG installations, but if your PKG is very large, check with your system if you have enough space on the HDD x 2.
+
 ## Credits
 
 - [flatz](https://github.com/flatz), for the bgft bonus code in his [PKG installation writeup](https://flatz.github.io/#bonus)
