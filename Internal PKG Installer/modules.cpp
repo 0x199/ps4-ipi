@@ -19,7 +19,7 @@ int load_modules(void) {
 	// https://github.com/sleirsgoevy/ps4-libjbc
 	jbc_handle = sceKernelLoadStartModule("/app0/sce_module/libjbc.sprx", 0, NULL, 0, NULL, NULL);
 	if (jbc_handle == 0) {
-		printf("libjbc.sprx failed: 0x%08X\n", jbc_handle);
+		printf("sceKernelLoadStartModule() failed to load module %s\n", "libjbc.sprx");
 		goto err;
 	}
 	
