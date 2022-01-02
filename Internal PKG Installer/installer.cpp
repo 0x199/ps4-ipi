@@ -82,6 +82,16 @@ int install_pkg(const char* filename) {
 	char filepath[255];
 	snprintf(filepath, sizeof(filepath), "/user/data/%s", filename);
 	
+	char titleId[18];
+	memset(titleId, 0 ,sizeof(titleId));
+	int is_app = -1;
+	ret = sceAppInstUtilGetTitleIdFromPkg(filepath, titleId, &is_app);
+	if (ret) {
+		printf("Cannot get title id %s: BGFT Error 0x%08X\n", filepath, ret);
+		return -1;
+	}
+
+
 	printf("New install task: %s\n", filepath);
 	
 	OrbisBgftDownloadParamEx download_params;
@@ -90,7 +100,7 @@ int install_pkg(const char* filename) {
 		download_params.params.entitlementType = 5;
 		download_params.params.id = "";
 		download_params.params.contentUrl = filepath;
-		download_params.params.contentName = basename(filepath);
+		download_params.params.contentName = titleId;
 		download_params.params.iconPath = "";
 		download_params.params.playgoScenarioId = "0";
 		download_params.params.option = ORBIS_BGFT_TASK_OPT_DISABLE_CDN_QUERY_PARAM;

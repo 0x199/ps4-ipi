@@ -7,6 +7,8 @@ static bool s_modules_loaded = false;
 
 bool(*jailbreak)();
 
+int (*sceAppInstUtilGetTitleIdFromPkg)(const char* pkgPath, char* titleId, int* isApp);
+
 int load_modules(void) {
 	int ret, jbc_handle;
 
@@ -36,6 +38,21 @@ done:
 	
 err:
 	return -1;
+}
+
+int load_extra_modules(void) {
+	int app_util_handle = sceKernelLoadStartModule("/system/common/lib/libSceAppInstUtil.sprx", 0, NULL, 0, NULL, NULL);
+	if (app_util_handle == 0) {
+		printf("sceKernelLoadStartModule() failed to load module %s\n", "libSceAppInstUtil.sprx");
+		return -1;
+	}
+
+	sceKernelDlsym(app_util_handle, "sceAppInstUtilGetTitleIdFromPkg", (void**)&sceAppInstUtilGetTitleIdFromPkg);
+	if (sceAppInstUtilGetTitleIdFromPkg == NULL) {
+		printf("Failed to resolve symbol: %s\n", "sceAppInstUtilGetTitleIdFromPkg");
+		return -1;
+	}
+	return 0;
 }
 
 void unload_modules(void) {
