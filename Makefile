@@ -62,7 +62,7 @@ pkg/eboot.bin: $(INTDIR) $(OBJS)
 $(CONTENT_ID).pkg: pkg/pkg.gp4
 	$(TOOLCHAIN)/bin/$(CDIR)/PkgTool.Core pkg_build $< .
 
-pkg/pkg.gp4: pkg/eboot.bin pkg/sce_sys/about/right.sprx pkg/sce_sys/param.sfo pkg/sce_sys/icon0.png $(LIBMODULES) $(ASSETS)
+pkg/pkg.gp4: pkg/eboot.bin pkg/sce_sys/about/right.sprx pkg/sce_sys/param.sfo pkg/sce_sys/icon0.png pkg/sce_sys/pic1.png  $(LIBMODULES) $(ASSETS)
 	cd pkg && $(TOOLCHAIN)/bin/$(CDIR)/create-gp4 -out $(shell echo "$@" | sed -e 's/pkg\///g') --content-id=$(CONTENT_ID) --files "$(shell echo "$^" | sed -e 's/pkg\///g')"
 
 pkg/sce_sys/param.sfo: Makefile
