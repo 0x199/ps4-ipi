@@ -1,20 +1,17 @@
 #include "util.h"
 
-#include <orbis/libkernel.h>
-
 int system_notification(const char* text, const char* iconName) {
-	OrbisSystemNotificationBuffer NotificationBuffer;
+	OrbisNotificationRequest NotificationBuffer;
 	
-	NotificationBuffer.Type = OrbisSystemNotificationType::NotificationRequest;
+	NotificationBuffer.type = OrbisNotificationRequestType::NotificationRequest;
 	NotificationBuffer.unk3 = 0; 
-	NotificationBuffer.UseIconImageUri = 1;
-	NotificationBuffer.TargetId = -1;
+	NotificationBuffer.useIconImageUri = 1;
+	NotificationBuffer.targetId = -1;
 	
-	snprintf(NotificationBuffer.Uri, sizeof(NotificationBuffer.Uri), "cxml://psnotification/tex_%s", iconName);
-	strncpy(NotificationBuffer.Message, text, sizeof(NotificationBuffer.Message));
-	
-	sceKernelSendNotificationRequest(0, (char*)&NotificationBuffer, 3120, 0);
-	
+	snprintf(NotificationBuffer.iconUri, sizeof(NotificationBuffer.iconUri), "cxml://psnotification/tex_%s", "icon_system");
+	strncpy(NotificationBuffer.message, text, sizeof(NotificationBuffer.message));
+	sceKernelSendNotificationRequest(0, &NotificationBuffer, 3120, 0);
+
 	return 0;
 }
 

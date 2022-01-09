@@ -26,6 +26,11 @@ int main() {
 	// Escape from sandbox
 	jailbreak();
 	
+	if (load_extra_modules()) {
+		EPRINTF("Unable to load extra modules.\n");
+		goto err;
+	}
+
 	// Initiate background file transfer
 	if (bgft_init()) {
 		EPRINTF("BGFT initialization failed.\n");
@@ -41,7 +46,8 @@ int main() {
 	return 0;
 	
 err:
-	return -1;
+	sceSystemServiceLoadExec((char*)"exit", 0);
+	return 0;
 }
 
 static int check_directory() {
