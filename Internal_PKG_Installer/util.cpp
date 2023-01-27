@@ -1,5 +1,19 @@
 #include "util.h"
 
+
+
+void run_as_root(void * args) {
+	struct VirtualRunArgs * vrArgs = (struct VirtualRunArgs*)args;
+	vrArgs->returnValue = vrArgs->funcPtr();
+}
+
+int sudo_func(int (*funcPtr)()) {
+	struct VirtualRunArgs args;
+	args.funcPtr = funcPtr;
+	jbc_run_as_root(run_as_root, &args, CWD_ROOT);
+	return args.returnValue;
+}
+
 int system_notification(const char* text, const char* iconName) {
 	OrbisNotificationRequest NotificationBuffer;
 	
