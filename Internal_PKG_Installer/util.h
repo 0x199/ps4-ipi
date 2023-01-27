@@ -5,7 +5,7 @@
 #include <fcntl.h>
 #include <libjbc.h>
 
-struct VirtualRunArgs {
+struct RunAsRootArgs {
 	int (*funcPtr)();
 	int returnValue;
 };

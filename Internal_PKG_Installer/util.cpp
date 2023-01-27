@@ -3,12 +3,12 @@
 
 
 void run_as_root(void * args) {
-	struct VirtualRunArgs * vrArgs = (struct VirtualRunArgs*)args;
-	vrArgs->returnValue = vrArgs->funcPtr();
+	struct RunAsRootArgs * runAsRootArgs = (struct RunAsRootArgs*)args;
+	runAsRootArgs->returnValue = runAsRootArgs->funcPtr();
 }
 
 int sudo_func(int (*funcPtr)()) {
-	struct VirtualRunArgs args;
+	struct RunAsRootArgs args;
 	args.funcPtr = funcPtr;
 	jbc_run_as_root(run_as_root, &args, CWD_ROOT);
 	return args.returnValue;
