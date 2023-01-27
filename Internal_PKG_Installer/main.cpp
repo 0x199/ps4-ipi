@@ -12,9 +12,6 @@ static int check_directory(void);
 
 static void cleanup(void);
 
-
-
-
 int main() {
 	setvbuf(stdout, NULL, _IONBF, 0);
 	atexit(&cleanup);
