@@ -8,7 +8,6 @@
 
 #include <orbis/libkernel.h>
 #include <orbis/SystemService.h>
-
 static int check_directory(void);
 
 static void cleanup(void);
@@ -16,29 +15,25 @@ static void cleanup(void);
 int main() {
 	setvbuf(stdout, NULL, _IONBF, 0);
 	atexit(&cleanup);
-	
 	// Load needed modules
 	if (load_modules()) {
 		EPRINTF("Unable to load modules.\n");
 		goto err;
 	}
-	
-	// Escape from sandbox
-	jailbreak();
-	
-	if (load_extra_modules()) {
+
+	if (sudo_func(load_extra_modules)) {
 		EPRINTF("Unable to load extra modules.\n");
 		goto err;
 	}
 
 	// Initiate background file transfer
-	if (bgft_init()) {
+	if (sudo_func(bgft_init)) {
 		EPRINTF("BGFT initialization failed.\n");
 		goto err;
 	}
 	
 	// Check for packages
-	check_directory();
+	sudo_func(check_directory);
 	
 	// Clean exit the app
 	sceSystemServiceLoadExec((char*)"exit", 0);

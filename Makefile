@@ -7,7 +7,7 @@ TITLE_ID    := BREW00050
 CONTENT_ID  := IV0000-BREW00050_00-IPI0000000000000
 
 # Libraries linked into the ELF.
-LIBS        := -lc -lkernel -lc++ -lSceVideoOut -lSceBgft -lSceAppInstUtil -lSceSysmodule -lSceSystemService
+LIBS        := -lc -lkernel -lc++ -lSceVideoOut -lSceBgft -lSceAppInstUtil -lSceSysmodule -lSceSystemService -ljbc
 
 # Additional compile flags.
 EXTRAFLAGS  := -DGRAPHICS_USES_FONT -I../ps4-zip/src
@@ -20,7 +20,6 @@ LIBMODULES  := $(wildcard pkg/sce_module/*)
 
 # Root vars
 TOOLCHAIN   := $(OO_PS4_TOOLCHAIN)
-# Need to make a symbolic link to point to Internal PKG Installer. 
 # Make does not like spaces in directories.
 PROJDIR     := Internal_PKG_Installer
 COMMONDIR   := $(TOOLCHAIN)/samples/_common
@@ -53,7 +52,7 @@ ifeq ($(UNAME_S),Darwin)
 		CDIR    := macos
 endif
 
-all: clean $(CONTENT_ID).pkg revert
+all: clean $(CONTENT_ID).pkg
 
 pkg/eboot.bin: $(INTDIR) $(OBJS)
 	$(LD) $(INTDIR)/*.o -o $(INTDIR)/$(PROJDIR).elf $(LDFLAGS)
@@ -96,10 +95,7 @@ $(INTDIR)/%.o: $(COMMONDIR)/%.cpp
 
 # clean and revert is a workaround to make not liking spaces in the directory name
 clean:
-	file "Internal PKG Installer" | grep -q "directory" && mv -u "Internal PKG Installer" Internal_PKG_Installer || echo "Not found" 
 	mkdir -p $(INTDIR)
 	rm -f $(CONTENT_ID).pkg pkg/pkg.gp4 pkg/sce_sys/param.sfo pkg/eboot.bin \
 		$(INTDIR)/$(PROJDIR).elf $(INTDIR)/$(PROJDIR).oelf $(OBJS)
 
-revert:
-	file "Internal_PKG_Installer" | grep -q "directory" && mv -u Internal_PKG_Installer "Internal PKG Installer"
